@@ -1,12 +1,15 @@
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {useId} from "react";
 import s from './ContactForm.module.css'
-import {nanoid} from "nanoid";
 import * as Yup from 'yup'
+import {addContact} from "../redux/actions.js";
+import {useDispatch} from "react-redux";
 
-const ContactForm = ({userData, setUserData}) => {
+const ContactForm = () => {
 
     const phoneRegExp = /^\+380\d{9}$/;
+
+    const dispatch = useDispatch()
 
     const validationSchema = Yup.object({
         name: Yup.string().min(3, 'Too short Name').max(50, 'Too long Name').required('This field is required'),
@@ -17,8 +20,8 @@ const ContactForm = ({userData, setUserData}) => {
     const idForNumber = useId()
 
     const handleSubmit = (value, action)=>{
-        setUserData([...userData, {id: nanoid(), ...value}])
         action.resetForm()
+        dispatch(addContact(value))
     }
 
     return <Formik validationSchema={validationSchema} initialValues={{name: '', number: ''}} onSubmit={handleSubmit}>
