@@ -3,12 +3,13 @@ import ContactForm from "./components/ContactForm.jsx";
 import ContactList from "./components/ContactList.jsx";
 import SearchBox from "./components/SearchBox.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {addFilter, deleteContact} from "./redux/actions.js";
+import {deleteContact} from "./redux/contactsSlice.js";
+import {addFilter} from "./redux/filtersSlice.js";
 
 function App() {
 
-  const contacts = useSelector((state)=> state.contacts)
-  const searchValue = useSelector((state)=> state.filteredContacts)
+  const contacts = useSelector((state)=> state.contacts.items)
+  const searchValue = useSelector((state)=> state.filters.name)
   const dispatch = useDispatch()
 
 
