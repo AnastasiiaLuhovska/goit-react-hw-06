@@ -1,9 +1,12 @@
 import Contact from "./Contact.jsx";
+import {useSelector} from "react-redux";
 
-const ContactList = ({userData, handleDelete}) => {
-
+const ContactList = ({handleDelete}) => {
+    const contacts = useSelector((state)=> state.contacts.items)
+    const searchValue = useSelector((state)=> state.filters.name)
+    const filteredUserData =  contacts.filter(contact => contact.name.toLowerCase().includes(searchValue.toLowerCase()) || contact.number.toLowerCase().includes(searchValue.toLowerCase()))
     return <ul>
-        {userData.map(user => <Contact key={user.id} user={user} handleDelete={handleDelete}/>
+        {filteredUserData.map(user => <Contact key={user.id} user={user} handleDelete={handleDelete}/>
         )}
     </ul>
 };
